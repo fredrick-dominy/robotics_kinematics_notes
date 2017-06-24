@@ -1,0 +1,34 @@
+# Kinematics
+
+Kinematics is a branch of classical mechanics that studies how things move without studying the forces required to produce the motion.  
+
+Reference Frames - Vectors such as position, velocity, and acceleration are always described in the context of a reference frame.
+
+Homogenous Transform - A way to express vectors expressed in one reference frame to another.  It is a 4x4 matrix that captures the relative rotations and translations between two frames.
+
+Forward and Inverse Kinimatic problem: 
+	Forward: Joint Space --> Forward Kinematics --> Cartesian Space
+	Inverse; Cartesian space --> Inverse Kinematics -- Joint Space
+
+Degrees of Freedom: minimum # of variables that are required to define the position or configuration of a mechanism in space.
+
+
+
+2-DoF Arm
+function takes length of link1_length, link2_length, and the angles joint0_angle and joint1_angle
+
+returns: return joint1_x, joint1_y, p2_x, p2_y
+
+# Define a function to compute the arm configuration
+# NOTE: joint1_angle is the angle counterclockwise from the link1 axis
+
+
+def compute_arm_config(link1_length, link2_length, joint0_angle, joint1_angle):
+    # compute the (x, y) position of the p1 joint and the end effector at p2.  
+
+    joint1_x = link1_length * np.cos(joint0_angle)
+    joint1_y = link1_length * np.sin(joint0_angle)
+    p2_x = joint1_x + link2_length * np.cos(joint0_angle + joint1_angle)
+    p2_y = joint1_y + link2_length * np.sin(joint0_angle + joint1_angle)
+
+    return joint1_x, joint1_y, p2_x, p2_y

@@ -1,0 +1,69 @@
+# Roboschool
+
+#### Installation proceeded as follows
+
+* Created a new anaconda env (roboschool)
+
+conda create --name roboschool
+source activate roboschool
+
+* first add a condapip alias to .bashrc
+alias condapip=/home/fredrick/anaconda3/bin/pip
+
+* install
+conda install qt
+condapip install qt
+
+export PKG_CONFIG_PATH=$(dirname $(dirname $(which python)))/lib/pkgconfig
+
+* made roboschool directory and set PATH
+
+git clone https://github.com/openai/roboschool.git
+ROBOSCHOOL_PATH=/home/fredrick/roboschool
+
+* $ROBOSCHOOL_PATH returns:
+bash: /home/fredrick/roboschool: Is a directory
+
+* installed dependencies from https://github.com/openai/roboschool
+
+sudo apt install cmake ffmpeg pkg-config qtbase5-dev libassimp-dev libpython3.5-dev libboost-python-dev libtinyxml-dev
+
+
+* Compile and install bullet
+
+git clone https://github.com/olegklimov/bullet3 -b roboschool_self_collision
+
+mkdir bullet3/build
+cd bullet3/build
+
+cmake -DBUILD_SHARED_LIBS=ON -DUSE_DOUBLE_PRECISION=1 -DCMAKE_INSTALL_PREFIX:PATH=$ROBOSCHOOL_PATH/roboschool/cpp-household/bullet_local_install -DBUILD_CPU_DEMOS=OFF -DBUILD_BULLET2_DEMOS=OFF -DBUILD_EXTRAS=OFF  -DBUILD_UNIT_TESTS=OFF -DBUILD_CLSOCKET=OFF -DBUILD_ENET=OFF -DBUILD_OPENGL3_DEMOS=OFF ..
+
+make -j4
+make install
+cd ../..
+
+* install the project
+condapip install -e $ROBOSCHOOL_PATH
+
+* run the demo
+python $ROBOSCHOOL_PATH/agent_zoo/RoboschoolHumanoidFlagrun_v0_2017may.py
+
+* demo fails with
+
+Traceback (most recent call last):
+  File "/home/fredrick/bio_project/roboschool/agent_zoo/RoboschoolHumanoidFlagrun_v0_2017may.py", line 1, in <module>
+    import gym, roboschool
+  File "/home/fredrick/bio_project/roboschool/roboschool/__init__.py", line 80, in <module>
+    from roboschool.gym_pendulums import RoboschoolInvertedPendulum
+  File "/home/fredrick/bio_project/roboschool/roboschool/gym_pendulums.py", line 1, in <module>
+    from roboschool.scene_abstract import SingleRobotEmptyScene
+  File "/home/fredrick/bio_project/roboschool/roboschool/scene_abstract.py", line 12, in <module>
+    from roboschool  import cpp_household   as cpp_household
+ImportError: /home/fredrick/anaconda3/bin/../lib/libstdc++.so.6: version `GLIBCXX_3.4.20' not found (required by /usr/lib/x86_64-linux-gnu/libassimp.so.3)
+
+
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install libstdc++6
+
+* Failed Ultimately

@@ -1,0 +1,64 @@
+Installation and Gazebo start
+
+cd ~/catkin_ws/src
+
+git clone https://github.com/udacity/RoboND-Kinematics-Project.git
+
+cd ../
+rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y
+
+
+Permissions
+
+cd ~/catkin_ws/src/RoboND-Kinematics-Project/kuka_arm/scripts
+sudo chmod u+x target_spawn.py
+sudo chmod u+x IK_server.py
+sudo chmod u+x safe_spawner.sh
+
+
+Build
+
+cd ~/catkin_ws
+catkin_make
+
+
+*** Since the pick and place simulator spins up different nodes in separate terminals, you need to add the following to your .bashrc file for auto-sourcing:
+source ~/catkin_ws/devel/setup.bash
+
+***  inform Gazebo (our simulation software) where to look for custom 3D models.  
+# this just externally modifies .bashrc..  
+echo "export GAZEBO_MODEL_PATH=~/catkin_ws/src/RoboND-Kinematics-Project/kuka_arm/models" >> ~/.bashrc
+
+
+*** For demo mode make sure the demo flag is set to *** true *** in inverse_kinematics.launch file under ~/catkin_ws/src/RoboND-Kinematics-Project/kuka_arm/launch/
+
+
+*** In addition, you can also control the spawn location of the target object in the shelf. To do this, modify the spawn_location argument in target_description.launch file under ~/catkin_ws/src/RoboND-Kinematics-Project/kuka_arm/launch/  (set to 0 - 9) 0 is random
+
+
+Launch with:
+gazebo
+
+
+
+********** Spin up RViz
+RViz stands for ROS Visualizer
+
+Used to visualize sensor data published over ROS like images, point clouds, and ultrasonic measurements, lidar data, and inertial measurements
+
+Not a physics engine however you can visualize a real-time 3d representation of the robot
+
+complements Gazebo
+
+*** running RViz
+
+make sure roscore is up:
+roscore
+rosrun rviz rviz
+
+
+Now load up the bot:
+roslaunch kuka_arm load_urdf.launch
+
+
+Go back to the rviz window and add a display by clicking the Add button at the bottom. This will bring up a new window with display types, select RobotModel and hit Ok. Next change the Fixed Frame under Global Options from world (or map) to base_link.
