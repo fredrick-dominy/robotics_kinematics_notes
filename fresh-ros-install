@@ -17,7 +17,6 @@ apt-cache search ros-kinetic
 sudo rosdep init
 
 rosdep update
-
 echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
 
 sudo apt-get install python-rosinstall
@@ -52,8 +51,12 @@ rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y
 cd ~/catkin_ws/src/RoboND-Kinematics-Project/kuka_arm/scripts
 sudo chmod u+x target_spawn.py
 sudo chmod u+x IK_server.py
-sudo chmod u+x safe_spawner.sh
+smudo chmod u+x safe_spawner.sh
 
+sudo apt-get install ros-kinetic-moveit
+source /opt/ros/kinetic/setup.bash
+rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y
 
 cd ~/catkin_ws
 catkin_make
